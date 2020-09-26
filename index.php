@@ -43,7 +43,10 @@ $options = [
 $creator->load($contents, $options);
 
 // Echo table html
-$creator->create();
+// $creator->create();
 
 // Get table html string
-$table_html = $creator->getTable()->getHtml();
+$table = $creator->getTable();
+$html = $table->build()->getHtml();
+
+var_dump($html);

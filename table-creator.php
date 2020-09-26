@@ -20,15 +20,12 @@ class TableCreator {
     }
 
     public function create(): void {
-        $this->build();
+        $this->table->build();
         $this->table->render();
     }
 
     public function getTable(): Table
     {
-        if ( empty($this->table->html) ) {
-            $this->build;
-        }
         return $this->table; 
     }
 
@@ -67,43 +64,6 @@ class TableCreator {
             "id" => $id,
             "class" => $class
         ]);
-
-    }
-
-    private function build() {
-
-        $id = $this->table->options['id'] ?? '';
-        $class = $this->table->options['class'] ?? '';
-
-        $html = "<table$id$class>";
-
-        $heading = 0;
-
-        foreach($this->table->contents as $content){
-
-            if ( $heading === 0 ) {
-                $html .= "<tr>";
-                foreach ( array_keys( $content ) as $heading_item ) {
-                    $heading_item = str_replace( '_', ' ', $heading_item );
-                    $html .= "<th>$heading_item</th>";
-                }
-                $html .=  "</tr>";
-                $heading ++;
-            }
-
-            $html .= "<tr>";
-
-            foreach ( $content as $item ) {
-                $html .= "<td>$item</td>";
-            }
-
-            $html .= '</tr>';
-
-        }
-
-        $html .= '</table>';
-
-        $this->table->setHtml($html);
 
     }
 
@@ -147,6 +107,49 @@ class Table {
     public function getHtml(): string
     {
         return $this->html;
+    }
+
+    public function build() {
+
+        if ( empty($this->contents) ){
+            return 'no contents';
+        }
+
+        $id = $this->options['id'] ?? '';
+        $class = $this->options['class'] ?? '';
+
+        $html = "<table$id$class>";
+
+        $heading = 0;
+
+        foreach($this->contents as $content){
+
+            if ( $heading === 0 ) {
+                $html .= "<tr>";
+                foreach ( array_keys( $content ) as $heading_item ) {
+                    $heading_item = str_replace( '_', ' ', $heading_item );
+                    $html .= "<th>$heading_item</th>";
+                }
+                $html .=  "</tr>";
+                $heading ++;
+            }
+
+            $html .= "<tr>";
+
+            foreach ( $content as $item ) {
+                $html .= "<td>$item</td>";
+            }
+
+            $html .= '</tr>';
+
+        }
+
+        $html .= '</table>';
+
+        $this->setHtml($html);
+
+        return $this;
+
     }
 
 }
