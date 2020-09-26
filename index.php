@@ -4,6 +4,18 @@ include_once 'table-creator.php';
 
 $creator = new TableCreator();
 
+// Incorrect uses
+$contents = [];
+
+$contents = [
+        'content'
+];
+
+$contents = [
+        ['content'],
+];
+
+// Correct use
 $contents = [
     [
         "post_id" => 1,
@@ -27,4 +39,11 @@ $options = [
     "class" => "noodle fish bump"
 ];
 
-$creator->insertContents($contents, $options)->create();
+// Load options and contents into created object
+$creator->load($contents, $options);
+
+// Echo table html
+$creator->create();
+
+// Get table html string
+$table_html = $creator->getTable()->getHtml();

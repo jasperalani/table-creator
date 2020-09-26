@@ -1,9 +1,7 @@
 # table-creator
-Table Creator for php
+Table Creator for php (7.4)
 
 ```php
-
-$creator = new TableCreator();
 
 $contents = [
     [
@@ -28,6 +26,13 @@ $options = [
     "class" => "noodle fish bump"
 ];
 
-$creator->insertContents($contents, $options)->create();
+// Load options and contents into created object
+$creator->load($contents, $options);
+
+// Echo table html
+$creator->create();
+
+// Get table html string
+$table_html = $creator->getTable()->getHtml();
 
 ```

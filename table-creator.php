@@ -1,14 +1,17 @@
 <?php
 
+// todo: refactor; move build function to table class
+
 class TableCreator {
 
     private Table $table;
 
     public function __construct() {
         $this->table = new Table();
+        return $this;
     }
 
-    public function insertContents(array $contents, array $options = array()): TableCreator {
+    public function load(array $contents, array $options = array()): TableCreator {
         $this->verifyContents($contents);
         $this->table->setContents($contents);
         $this->options($options);
@@ -23,18 +26,26 @@ class TableCreator {
 
     public function getTable(): Table
     {
-        return $this->table;
+        if ( empty($this->table->html) ) {
+            $this->build;
+        }
+        return $this->table; 
     }
 
     private function verifyContents(array $contents) {
 
         // If empty
         if(array() === $contents){
-            trigger_error('INVALID USE: Table_Creator supplied an empty array as contents');
+            trigger_error('TableCreator Error: supplied an empty array as contents');
         }
 
-        // If not associative
         foreach($contents as $content){
+            // If not an array of arrays
+            if( !is_array($content) ){
+                trigger_error('INVALID USE: Table_Creator supplied contents that was not an array of14
+                 arrays');
+            }
+            // If not an array of associative arrays
             if(array_keys($content) === range(0, count($content) - 1)){
                 trigger_error('INVALID USE: Table_Creator supplied contents that was not an array of associative arrays');
             }
