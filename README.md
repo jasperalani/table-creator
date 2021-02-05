@@ -3,6 +3,8 @@ Table Creator for php (7.4)
 
 ```php
 
+$creator = new TableCreator();
+
 $contents = [
     [
         "post_id" => 1,
